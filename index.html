@@ -1,4 +1,4 @@
-    <!doctype html>
+<!doctype html>
 <html lang="ko">
 <head>
     <meta charset="utf-8">
@@ -16,35 +16,34 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Malgun Gothic', '맑은 고딕', sans-serif;
-            /* PC 배경색을 조금 더 밝은 회색으로 변경하여 대비를 줌 */
             background-color: #f4f4f4; 
             min-height: 100vh;
             display: flex;
             justify-content: center;
         }
-           @keyframes fadeInPage {
+        
+        @keyframes fadeInPage {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
-            }
+        }
        
         /* 기본 컨테이너 설정 */
-            .container {
-                width: 100%;
-                max-width: 640px;
-                position: relative;
-                background-color: #efe8d8; /* 이미지 로딩 전 배경색 (미리 깔아둠) */
-                background-image: url('./background.jpg');
-                background-size: 100% auto;
-                background-repeat: repeat-y;
-                background-position: top center;
-                background-attachment: scroll;
-                box-shadow: 0 0 20px rgba(0,0,0,0.05);
-                animation: fadeInPage 1.2s ease-out;
-                }
+        .container {
+            width: 100%;
+            max-width: 640px;
+            position: relative;
+            background-color: #efe8d8; /* 이미지 로딩 전 배경색 */
+            background-image: url('./background.jpg');
+            background-size: 100% auto;
+            background-repeat: repeat-y;
+            background-position: top center;
+            background-attachment: scroll;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            animation: fadeInPage 1.2s ease-out;
+        }
             
         .content {
             width: 100%;
-            /* 하단 전체 여백을 60px -> 20px로 대폭 축소 */
             padding-bottom: 20px; 
         }
 
@@ -54,16 +53,15 @@
             display: block;
             min-height: 200px;
             background-color: #f4f4f4;
-            /* 이미지 렌더링 최적화 */
             content-visibility: auto; 
-            }
+        }
 
         /* 네비게이션 버튼 (카카오 길찾기) */
         .navigation-button-container {
-        display: flex;
-        justify-content: center;
-        padding: 20px 20px;
-        min-height: auto; /* 버튼이 들어갈 공간을 미리 확보 */
+            display: flex;
+            justify-content: center;
+            padding: 5px 20px; /* 상하 여백 밀착 조정 */
+            min-height: auto;
         }
 
         .navigation-button {
@@ -80,10 +78,63 @@
             text-align: center;
         }
 
-        /* 마음 전하실 곳 버튼 (여백 조정) */
+        /* 갤러리 스타일 */
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background-color: #f4f4f4;
+        }
+
+        .gallery-slides {
+            display: flex;
+            transition: transform 0.4s ease-out;
+            width: 100%;
+        }
+
+        .gallery-slides img {
+            width: 100%;
+            flex-shrink: 0;
+            min-height: auto !important;
+        }
+
+        .gallery-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.5);
+            color: #333;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-prev { left: 10px; }
+        .btn-next { right: 10px; }
+
+        .gallery-pagination {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            z-index: 10;
+        }
+
+        /* 마음 전하실 곳 버튼 */
         .floating-button {
             display: block;
-            /* 상단 여백 30px, 하단 여백 10px로 조정 */
             margin: 30px auto 10px; 
             position: relative;
             background: linear-gradient(135deg, #4CAF50 0%, #2E8B57 100%);
@@ -94,11 +145,11 @@
             font-size: 18px;
             font-weight: 600;
             cursor: pointer;
-            width: 80%; /* 모바일/PC 모두 적당한 너비 유지 */
+            width: 80%;
             max-width: 300px;
         }
 
-        /* 팝업 및 기타 스타일 (기존 유지) */
+        /* 팝업 창 */
         .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: center; z-index: 2000; backdrop-filter: blur(5px); }
         .popup-overlay.show { display: flex; }
         .popup { background: white; border-radius: 20px; padding: 30px; width: 90%; max-width: 400px; max-height: 80vh; overflow-y: auto; }
@@ -112,46 +163,33 @@
         .copy-success { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #28a745; color: white; padding: 12px 24px; border-radius: 25px; z-index: 3000; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
         .copy-success.show { opacity: 1; }
         
-        /* --- 꽃 날리는 효과 스타일 (이미지 버전) --- */
+        /* 꽃 날리는 효과 */
         .petal-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw; /* 가로 폭을 화면 전체로 고정 */
-        height: 100vh; /* 세로 높이를 화면 전체로 고정 */
-        pointer-events: none;
-        z-index: 9999; /* 다른 요소들보다 훨씬 높은 숫자로 수정 */
-        overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
         }
 
         .petal {
-        position: absolute;
-        /* --- 기존 색상/모양 코드 삭제 후 아래 코드 추가 --- */
-        background-image: url('./flower3.png'); /* 업로드한 꽃 이미지 경로 */
-        background-size: contain; /* 이미지가 찌그러지지 않고 비율 유지 */
-        background-repeat: no-repeat;
-        background-position: center;
-        /* ------------------------------------------------ */
-        opacity: 0.9; /* 꽃 이미지가 살짝 투명하게 */
-        animation: fall linear infinite;
+            position: absolute;
+            background-image: url('./flower3.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.9;
+            animation: fall linear infinite;
         }
 
-        /* 꽃이 떨어지는 애니메이션 정의 (기존과 동일) */
         @keyframes fall {
-        0% {
-        top: -10%;
-        transform: translateX(0) rotate(0deg);
-        opacity: 0.9;
-            }
-        100% {
-        top: 110%; /* 화면 아래까지 */
-        transform: translateX(100px) rotate(360deg); /* 오른쪽으로 가면서 회전 */
-        opacity: 0; /* 사라짐 */
-            }
-                }
+            0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 0.9; }
+            100% { top: 110%; transform: translateX(100px) rotate(360deg); opacity: 0; }
+        }
 
-        /* 다양한 크기, 위치, 속도의 꽃들 설정 */
-        /* top 값을 0% ~ 100% 사이로 골고루 배분하여 처음에 뭉치지 않게 합니다. */
         .petal:nth-child(1) { width: 25px; height: 25px; left: 10%; top: 5%; animation-duration: 8s; animation-delay: -2s; }
         .petal:nth-child(2) { width: 20px; height: 20px; left: 20%; top: 20%; animation-duration: 12s; animation-delay: -5s; opacity: 0.7; }
         .petal:nth-child(3) { width: 30px; height: 30px; left: 35%; top: 40%; animation-duration: 8s; animation-delay: -1s; }
@@ -163,77 +201,16 @@
         .petal:nth-child(9) { width: 24px; height: 24px; left: 45%; top: 75%; animation-duration: 13s; animation-delay: -4s; opacity: 0.8; }
         .petal:nth-child(10) { width: 28px; height: 28px; left: 75%; top: 90%; animation-duration: 9s; animation-delay: -2s; }
         
-        /* 모바일 최적화 */
         @media (max-width: 768px) {
-    body { 
-        /* 모바일에서도 회색 대신 배경 이미지의 분위기와 어울리는 색상으로 설정 */
-        background-color: #f4f4f4; 
-    }
-        .container {
-        /* 이미지가 뜨기 전 비슷한 색상을 미리 보여주어 깜빡임을 방지 */
-            background-color: #efe8d8; 
-            background-image: url('./background.jpg');
-            background-size: 100% auto;
-            background-repeat: repeat-y;
-            background-position: top center;
-         }
-}    
-
-	/* 갤러리 컨테이너 */
-	.gallery-container {
-   	 position: relative;
-	    width: 100%;
- 	   overflow: hidden;
-   	 background-color: #f4f4f4;
-	}
-
-	/* 이미지들이 가로로 나열되는 구역 */
-	.gallery-slides {
-    	display: flex;
-   	 transition: transform 0.4s ease-out;
-   	 width: 100%;
-	}
-
-	.gallery-slides img {
-  	  width: 100%;
-    	flex-shrink: 0;
-   	 min-height: auto !important; /* 이미지 높이 자동 조절 */
-	}
-
-	/* 화살표 버튼 */
-	.gallery-btn {
-	    position: absolute;
- 	   top: 50%;
-   	 transform: translateY(-50%);
-   	 background: rgba(255, 255, 255, 0.5);
-   	 color: #333;
-   	 border: none;
-  	  width: 40px;
-   	 height: 40px;
-   	 border-radius: 50%;
- 	   cursor: pointer;
- 	   font-size: 20px;
- 	   z-index: 10;
- 	   display: flex;
-  	  justify-content: center;
- 	  align-items: center;
-	}
-
-	.btn-prev { left: 10px; }
-	.btn-next { right: 10px; }
-
-	/* 페이지 표시 (1/5) */
-	.gallery-pagination {
-  	  position: absolute;
-   	 bottom: 15px;
-   	 left: 50%;
-   	 transform: translateX(-50%);
-  	 background: rgba(0, 0, 0, 0.3);
-  	  color: white;
- 	   padding: 4px 12px;
- 	   border-radius: 20px;
-  	  font-size: 12px;
-	}
+            body { background-color: #f4f4f4; }
+            .container {
+                background-color: #efe8d8; 
+                background-image: url('./background.jpg');
+                background-size: 100% auto;
+                background-repeat: repeat-y;
+                background-position: top center;
+            }
+        }    
     </style>
 </head>
 <body>
@@ -263,29 +240,25 @@
             </div>
             
             <div class="gallery-container">
-   	 <div class="gallery-slides" id="gallerySlides">
-    	    <!-- 사진들을 추가하세요 (파일명 주의) -->
-      	  <img src="./004.jpg" />
-          <img src="./005.jpg" />
-       	  <img src="./006.jpg" />
-		  <img src="./007.jpg" />
-      	  <img src="./008.jpg" />
-          <img src="./009.jpg" />
- 	   </div>
+                <div class="gallery-slides" id="gallerySlides">
+                    <img src="./004.jpg" />
+                    <img src="./005.jpg" />
+                    <img src="./006.jpg" />
+                    <img src="./007.jpg" />
+                    <img src="./008.jpg" />
+                    <img src="./009.jpg" />
+                </div>
 
-  	  <!-- 화살표 버튼 -->
-  	  <button class="gallery-btn btn-prev" onclick="moveSlide(-1)">&#10094;</button>
-  	  <button class="gallery-btn btn-next" onclick="moveSlide(1)">&#10095;</button>
+                <button class="gallery-btn btn-prev" onclick="moveSlide(-1)">&#10094;</button>
+                <button class="gallery-btn btn-next" onclick="moveSlide(1)">&#10095;</button>
 
-   	 <!-- 페이지 번호 -->
-   	 <div class="gallery-pagination" id="galleryPage">1 / 4</div>
-	</div>
+                <div class="gallery-pagination" id="galleryPage">1 / 6</div>
+            </div>
 
-	<img src="./010.jpg" />
+            <img src="./010.jpg" />
 
             <button class="floating-button" onclick="showPopup()">마음 전하실 곳</button>
         </div>
-	
     </div>
 
     <div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
@@ -336,34 +309,35 @@
                 msg.classList.add('show');
                 setTimeout(() => msg.classList.remove('show'), 2000);
             });
-     	   }
-	let currentIdx = 0;
-	const slides = document.getElementById('gallerySlides');
-	const pageText = document.getElementById('galleryPage');
-	const totalSlides = slides.querySelectorAll('img').length;
+        }
 
-	function moveSlide(step) {
-    	currentIdx += step;
+        // 갤러리 슬라이드 제어 자바스크립트
+        let currentIdx = 0;
+        const slides = document.getElementById('gallerySlides');
+        const pageText = document.getElementById('galleryPage');
+        const totalSlides = slides.querySelectorAll('img').length;
 
-   	 // 첫 페이지나 마지막 페이지에서 넘어갈 때 처리
-    	if (currentIdx >= totalSlides) currentIdx = 0;
-   	 if (currentIdx < 0) currentIdx = totalSlides - 1;
+        // 초기 페이지 수 표기 자동 세팅 (1 / 6)
+        pageText.innerText = `1 / ${totalSlides}`;
 
-   	 // 이미지 이동 시키기
-   	 slides.style.transform = `translateX(-${currentIdx * 100}%)`;
-    
-  	  // 페이지 번호 업데이트
-   	 pageText.innerText = `${currentIdx + 1} / ${totalSlides}`;
-	}
+        function moveSlide(step) {
+            currentIdx += step;
 
-	// 모바일 스와이프(터치) 기능 추가 (선택사항)
-	let startX = 0;
-	slides.addEventListener('touchstart', (e) => startX = e.touches[0].clientX);
-	slides.addEventListener('touchend', (e) => {
-  	  let endX = e.changedTouches[0].clientX;
-   	 if (startX - endX > 50) moveSlide(1);  // 왼쪽으로 밀면 다음
- 	   else if (endX - startX > 50) moveSlide(-1); // 오른쪽으로 밀면 이전
-	});
+            if (currentIdx >= totalSlides) currentIdx = 0;
+            if (currentIdx < 0) currentIdx = totalSlides - 1;
+
+            slides.style.transform = `translateX(-${currentIdx * 100}%)`;
+            pageText.innerText = `${currentIdx + 1} / ${totalSlides}`;
+        }
+
+        // 모바일 터치 스와이프 로직
+        let startX = 0;
+        slides.addEventListener('touchstart', (e) => startX = e.touches[0].clientX);
+        slides.addEventListener('touchend', (e) => {
+            let endX = e.changedTouches[0].clientX;
+            if (startX - endX > 50) moveSlide(1);  
+            else if (endX - startX > 50) moveSlide(-1);
+        });
     </script>
 </body>
 </html>
