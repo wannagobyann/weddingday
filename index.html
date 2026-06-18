@@ -330,14 +330,53 @@
             pageText.innerText = `${currentIdx + 1} / ${totalSlides}`;
         }
 
-        // 모바일 터치 스와이프 로직
-        let startX = 0;
-        slides.addEventListener('touchstart', (e) => startX = e.touches[0].clientX);
-        slides.addEventListener('touchend', (e) => {
-            let endX = e.changedTouches[0].clientX;
-            if (startX - endX > 50) moveSlide(1);  
-            else if (endX - startX > 50) moveSlide(-1);
-        });
+        // 갤러리 슬라이드 제어 자바스크립트
+let currentIdx = 0;
+const slides = document.getElementById('gallerySlides');
+const pageText = document.getElementById('galleryPage');
+const totalSlides = slides.querySelectorAll('img').length;
+
+// 초기 페이지 수 표기 자동 세팅
+pageText.innerText = `1 / ${totalSlides}`;
+
+function moveSlide(step) {
+    currentIdx += step;
+
+    if (currentIdx >= totalSlides) currentIdx = 0;
+    if (currentIdx < 0) currentIdx = totalSlides - 1;
+
+    slides.style.transform = `translateX(-${currentIdx * 100}%)`;
+    pageText.innerText = `${currentIdx + 1} / ${totalSlides}`;
+}
+
+// ----------------------------------------------------
+// [수정본] 민감도 보정 및 스크롤 충돌 방지 터치 로직
+// ----------------------------------------------------
+let startX = 0;
+let startY = 0;
+
+slides.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+}, { passive: true });
+
+slides.addEventListener('touchend', (e) => {
+    let endX = e.changedTouches[0].clientX;
+    let endY = e.changedTouches[0].clientY;
+
+    let diffX = startX - endX;
+    let diffY = startY - endY;
+
+    // 핵심 보정: 하객이 화면을 위아래로 스크롤하는 중(Y축 이동이 더 클 때)에는 슬라이드가 넘어가지 않도록 차단합니다.
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+        // 좌우 이동 거리가 최소 70픽셀 이상 확실하게 움직였을 때만 넘어가도록 민감도 조절 (기존 50 -> 70)
+        if (diffX > 70) {
+            moveSlide(1);  // 왼쪽으로 밀면 다음 사진
+        } else if (diffX < -70) {
+            moveSlide(-1); // 오른쪽으로 밀면 이전 사진
+        }
+    }
+}, { passive: true });
     </script>
 </body>
 </html>
