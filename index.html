@@ -56,13 +56,16 @@
             content-visibility: auto; 
         }
 
-        /* 네비게이션 버튼 (카카오 길찾기) */
+       /* [수정본] 네비게이션 버튼 (카카오 길찾기) 여백 조정 */
         .navigation-button-container {
-            display: flex;
-            justify-content: center;
-            padding: 5px 20px; /* 상하 여백 밀착 조정 */
-            min-height: auto;
-        }
+        display: flex;
+        justify-content: center;
+        padding-top: 15px;      /* 버튼 위쪽 여백 */
+        padding-bottom: 35px;   /* 버튼과 아래 갤러리 사이의 여백 (넉넉하게 수정) */
+        padding-left: 20px;
+        padding-right: 20px;
+        min-height: auto;
+            }
 
         .navigation-button {
             display: inline-block;
